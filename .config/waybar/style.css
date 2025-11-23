@@ -1,0 +1,106 @@
+@import "colors.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "SF Pro Display", "JetBrainsMono Nerd Font", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: @on_surface;
+}
+
+.modules-left,
+.modules-right {
+    margin: 0 5px;
+}
+
+tooltip {
+  background: @background;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+tooltip label {
+  color: @on_surface;
+}
+
+#workspaces{
+    margin: 0 10px;
+    background-color:transparent;
+    transition: all 200ms ease-in-out;
+}
+
+#workspaces button {
+    padding: 0 6px;
+    margin: 10px 2px 0;
+    border-radius: 5px;
+    background: @primary;
+    color: @on_secondary;
+    border-bottom: 7px solid transparent;
+}
+
+#workspaces button:hover,
+#workspaces button.active,
+#workspaces button.focused {
+    background: @on_secondary;
+    border-radius: 100px;
+    transition: all 250ms ease-in-out;
+    font-weight: 700;
+    padding: 0px 15px;
+    color: @primary;
+}
+
+#clock,
+#battery,
+#pulseaudio,
+#network{
+    padding: 0 6px;
+    margin: 10px 5px 0;
+    border-radius:100px;
+    background-color: @primary;
+    color: @on_secondary;
+}
+
+#window {
+    margin: 10px 5px 0;
+}
+
+#clock {
+    padding: 0 7px;
+    font-weight: 500;
+}
+
+#pulseaudio {
+    padding: 0 10px;
+}
+
+#battery {
+    padding: 0 8px;
+}
+
+#battery.charging {
+    color: white;
+    background-color: #26A65B;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: black;
+    }
+}
+
+#battery.warning:not(.charging) {
+    background: #f53c3c;
+    color: white;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
