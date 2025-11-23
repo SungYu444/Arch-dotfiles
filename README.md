@@ -4,7 +4,7 @@ My personal dotfiles for Arch Linux with Hyprland window manager.
 
 ## Showcase
 
-![Desktop](sddm/screenshot/README.png)
+![Desktop](sddm/screenshot/showcase.png)
 
 ## System Information
 
