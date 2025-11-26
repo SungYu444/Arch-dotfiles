@@ -11,7 +11,7 @@ My personal dotfiles for Arch Linux with Hyprland window manager.
 - **OS:** Arch Linux
 - **WM:** Hyprland
 - **Display Manager:** SDDM
-- **Shell:** bash
+- **Shell:** zsh
 - **Terminal:** kitty
 - **Bar:** Waybar
 - **Launcher:** Rofi
@@ -32,7 +32,7 @@ My personal dotfiles for Arch Linux with Hyprland window manager.
 ├── .local/bin/
 │   └── walset           # Wallpaper setter script
 ├── sddm/                # SDDM display manager
-└── .bashrc              # Bash shell configuration
+└── .zshrc              # zsh shell configuration
 ```
 
 ##  Installation
@@ -42,7 +42,7 @@ My personal dotfiles for Arch Linux with Hyprland window manager.
 Make sure you have the following packages installed:
 
 ```bash
-sudo pacman -S hyprland sddm kitty waybar rofi fastfetch git stow
+sudo pacman -S hyprland sddm kitty waybar rofi fastfetch git stow zsh
 
 # Install matugen from AUR
 yay -S matugen-bin
@@ -108,7 +108,7 @@ sudo systemctl restart sddm
 
 ## Notes
 
-- User configurations (`.config/`, `.bashrc`, `.local/bin/`) are managed with GNU Stow
+- User configurations (`.config/`, `.zshrc`, `.local/bin/`) are managed with GNU Stow
 - System configurations (`sddm/`) require sudo and are deployed via install script
 - The setup uses Matugen for automatic theme generation from wallpapers
 - `.stow-local-ignore` prevents stowing git files
