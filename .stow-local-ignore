@@ -8,6 +8,7 @@ CVS
 \.cvsignore
 
 sddm
+images
 \.svn
 _darcs
 \.hg
