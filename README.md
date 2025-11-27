@@ -47,7 +47,7 @@ sudo pacman -S hyprland sddm kitty waybar rofi fastfetch git stow zsh
 # Install matugen from AUR
 yay -S matugen-bin
 ```
-Also need to install Nerd font
+Also need to install Nerd font, oh-my-zsh, and powerlevel10k
 
 ### Clone the Repository
 
