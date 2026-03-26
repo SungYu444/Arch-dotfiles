@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+import sys
+sys.path.insert(0, '/home/yu/.config/lrc-tools')
+from lrc_tools.lrc_puller_cli import main
+sys.exit(main())

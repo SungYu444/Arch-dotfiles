@@ -19,6 +19,7 @@ My personal dotfiles for Arch Linux with Hyprland window manager.
 - **Launcher:** Rofi
 - **Theme Generator:** Matugen
 - **System Info:** Fastfetch
+- **Lyrics Visualizer:** lrc-tools
 
 ## Structure
 
@@ -28,10 +29,14 @@ My personal dotfiles for Arch Linux with Hyprland window manager.
 │   ├── fastfetch/       # System information tool
 │   ├── hypr/            # Hyprland window manager
 │   ├── kitty/           # Kitty terminal emulator
+│   ├── lrc-tools/       # Synced lyrics visualizer
 │   ├── matugen/         # Material Design color scheme generator
 │   ├── rofi/            # Application launcher
 │   └── waybar/          # Status bar
 ├── .local/bin/
+│   ├── lrc-fetch        # Fetch lyrics for a track
+│   ├── lrc-processor    # Process raw lyrics files
+│   ├── lrc-vis          # Terminal lyrics visualizer
 │   └── walset           # Wallpaper setter script
 ├── sddm/                # SDDM display manager
 └── .zshrc              # zsh shell configuration
@@ -87,7 +92,8 @@ This setup uses Matugen to generate coordinated color schemes across all applica
 
 - Generate colors from wallpaper: `walset <image>`
 - Templates are in `.config/matugen/templates/`
-- Auto-generates matching colors for Hyprland, Kitty, Rofi, and Waybar
+- Auto-generates matching colors for Hyprland, Kitty, Rofi, Waybar, and lrc-tools
+- lrc-tools receives color updates instantly via SIGUSR1 when the wallpaper changes
 
 ### Hyprland
 
