@@ -49,7 +49,7 @@ My personal dotfiles for Arch Linux with Hyprland window manager.
 Make sure you have the following packages installed:
 
 ```bash
-sudo pacman -S hyprland sddm kitty waybar rofi fastfetch git stow zsh
+sudo pacman -S hyprland sddm kitty waybar rofi fastfetch git stow zsh awww
 
 # Install matugen from AUR
 yay -S matugen-bin
