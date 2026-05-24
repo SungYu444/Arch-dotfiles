@@ -22,6 +22,8 @@ def main():
                         help='Path to custom fonts JSON file')
     parser.add_argument('--refresh-rate', type=float, default=0.05,
                         help='Display refresh rate in seconds (default: 0.05)')
+    parser.add_argument('--player', type=str, default='spotify',
+                        help='playerctl player name (default: spotify)')
     parser.add_argument('--config', type=Path,
                         help='Path to config.yaml')
 
@@ -35,6 +37,8 @@ def main():
     try:
         from .fonts import get_font, load_fonts_from_json, register_font
         from .visualizer_main import run_visualizer
+        from . import visualizer_player
+        visualizer_player.PLAYER_NAME = args.player
     except ImportError as e:
         print(f"Error: could not import visualizer modules — {e}")
         return 1

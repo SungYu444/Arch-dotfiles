@@ -3,7 +3,6 @@ LRC Visualizer - Main display loop
 Synchronizes lyrics with media player
 """
 import time
-import signal
 import threading
 from pathlib import Path
 from typing import Optional
@@ -84,12 +83,6 @@ def run_visualizer(
     display_waiting()
 
     palette = load_palette()
-
-    def _on_sigusr1(signum, frame):
-        nonlocal palette
-        palette = load_palette()
-
-    signal.signal(signal.SIGUSR1, _on_sigusr1)
 
     sync_data = SyncData()
     lyrics_cache: dict = {}

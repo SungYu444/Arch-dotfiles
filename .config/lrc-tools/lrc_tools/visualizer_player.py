@@ -6,40 +6,27 @@ import subprocess
 from pathlib import Path
 from typing import Optional, Tuple
 
+PLAYER_NAME: str = 'spotify'
+
+
+def _playerctl(*args) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        ['playerctl', '--player', PLAYER_NAME, *args],
+        capture_output=True, text=True, timeout=0.5
+    )
+
 
 def get_position() -> Optional[float]:
-    """
-    Get current playback position in seconds.
-    
-    Returns:
-        Current position in seconds, or None if unavailable
-    """
     try:
-        result = subprocess.run(
-            ['playerctl', '-p', 'spotify', 'position'], 
-            capture_output=True, 
-            text=True, 
-            timeout=0.5
-        )
+        result = _playerctl('position')
         return float(result.stdout.strip()) if result.returncode == 0 else None
     except Exception:
         return None
 
 
 def get_track() -> Optional[Tuple[str, str]]:
-    """
-    Get currently playing track information.
-    
-    Returns:
-        Tuple of (artist, title), or None if unavailable
-    """
     try:
-        result = subprocess.run(
-            ['playerctl', '-p', 'spotify', 'metadata', '--format', '{{artist}}|||{{title}}'], 
-            capture_output=True, 
-            text=True, 
-            timeout=0.5
-        )
+        result = _playerctl('metadata', '--format', '{{artist}}|||{{title}}')
         if result.returncode == 0:
             parts = result.stdout.strip().split('|||')
             return (parts[0], parts[1]) if len(parts) == 2 else None
@@ -48,38 +35,16 @@ def get_track() -> Optional[Tuple[str, str]]:
 
 
 def get_status() -> Optional[str]:
-    """
-    Get current playback status.
-    
-    Returns:
-        Status string ('Playing', 'Paused', 'Stopped'), or None if unavailable
-    """
     try:
-        result = subprocess.run(
-            ['playerctl', '-p', 'spotify', 'status'], 
-            capture_output=True, 
-            text=True, 
-            timeout=0.5
-        )
+        result = _playerctl('status')
         return result.stdout.strip() if result.returncode == 0 else None
     except Exception:
         return None
 
 
 def get_audio_file_info() -> Optional[Path]:
-    """
-    Get currently playing audio file path.
-    
-    Returns:
-        Path to audio file, or None if unavailable
-    """
     try:
-        result = subprocess.run(
-            ['playerctl', '-p', 'spotify', 'metadata', '--format', '{{xesam:url}}'], 
-            capture_output=True, 
-            text=True, 
-            timeout=0.5
-        )
+        result = _playerctl('metadata', '--format', '{{xesam:url}}')
         if result.returncode == 0:
             url = result.stdout.strip()
             if url.startswith('file://'):
@@ -90,22 +55,8 @@ def get_audio_file_info() -> Optional[Path]:
 
 
 def is_paused() -> bool:
-    """
-    Check if playback is currently paused.
-    
-    Returns:
-        True if paused, False otherwise
-    """
-    status = get_status()
-    return status == 'Paused' if status else False
+    return get_status() == 'Paused'
 
 
 def is_playing() -> bool:
-    """
-    Check if playback is currently active.
-    
-    Returns:
-        True if playing, False otherwise
-    """
-    status = get_status()
-    return status == 'Playing' if status else False
+    return get_status() == 'Playing'

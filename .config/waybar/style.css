@@ -55,6 +55,7 @@ tooltip label {
 }
 
 #clock,
+#custom-clock,
 #battery,
 #pulseaudio,
 #network{
@@ -69,7 +70,8 @@ tooltip label {
     margin: 10px 5px 0;
 }
 
-#clock {
+#clock,
+#custom-clock {
     padding: 0 7px;
     font-weight: 500;
 }

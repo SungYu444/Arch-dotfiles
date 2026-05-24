@@ -5,6 +5,7 @@ Handles rendering text in various styles to terminal
 import sys
 import os
 import re
+import unicodedata
 from pathlib import Path
 from typing import List, Optional, Tuple
 
@@ -164,33 +165,45 @@ def render_block_text(text: str, font_data: dict, color: Optional[Tuple[int, int
     return result
 
 
-def render_simple_text(text: str, centered: bool = True) -> str:
-    """
-    Render text in simple format (no block letters).
-    
-    Args:
-        text: Text to render
-        centered: Whether to center the text
-        
-    Returns:
-        Rendered text as string
-    """
+def _char_display_width(c: str) -> int:
+    return 2 if unicodedata.east_asian_width(c) in ('W', 'F') else 1
+
+
+def render_simple_text(text: str, centered: bool = True,
+                       color: Optional[Tuple[int, int, int]] = None) -> str:
     cols, rows = get_terminal_size()
-    
-    if centered:
-        pad_top = rows // 2
-        pad_left = max(0, (cols - len(text)) // 2)
-        
-        output = []
-        for i in range(rows):
-            if i == pad_top:
-                output.append(' ' * pad_left + text)
-            else:
-                output.append(' ' * cols)
-        
-        return '\n'.join(output)
-    else:
+
+    if not centered:
         return text
+
+    chars = list(text)
+    text_w = sum(_char_display_width(c) for c in chars)
+    n = len(chars)
+
+    # Spread characters across the terminal width proportionally
+    extra = cols - text_w
+    if n > 1 and extra > n:
+        gap = extra // (n + 1)
+        spacing = ' ' * gap
+        line = spacing + spacing.join(chars) + spacing
+        line_w = text_w + gap * (n + 1)
+    else:
+        line = text
+        line_w = text_w
+
+    pad_left = max(0, (cols - line_w) // 2)
+    centered_line = ' ' * pad_left + line
+
+    pad_top = rows // 2
+    output = []
+    for i in range(rows):
+        output.append(centered_line if i == pad_top else ' ' * cols)
+
+    result = '\n'.join(output)
+    if color:
+        r, g, b = color
+        result = f'\033[38;2;{r};{g};{b}m{result}\033[0m'
+    return result
 
 
 def render_waiting() -> str:
@@ -218,10 +231,10 @@ def display_text(text: str, use_block_letters: bool = True, font_data: dict = No
     if clear:
         sys.stdout.write('\033[2J\033[H')
 
-    if use_block_letters and font_data:
+    if use_block_letters and font_data and all(c.upper() in font_data for c in text if c != ' '):
         output = render_block_text(text, font_data, color=color)
     else:
-        output = render_simple_text(text)
+        output = render_simple_text(text, color=color)
 
     sys.stdout.write(output)
     sys.stdout.flush()
