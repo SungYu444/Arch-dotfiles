@@ -1,0 +1,3 @@
+bluetooth: bluetuith
+wifi: nmtui
+screen setting: nwg-display
